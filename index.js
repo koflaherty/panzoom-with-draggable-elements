@@ -589,8 +589,13 @@ function createPanZoom(domElement, options) {
   }
 
   function onTouch(e) {
-    // let them override the touch behavior
-    beforeTouch(e);
+    if (e.isDragging)
+      return;
+
+    // let them override the touch behavior and optionally prevent panzoom
+    if (!beforeTouch(e)) {
+      return;
+    }
     clearPendingClickEventTimeout();
 
     if (e.touches.length === 1) {
@@ -608,7 +613,7 @@ function createPanZoom(domElement, options) {
     if (options.onTouch && !options.onTouch(e)) {
       // if they return `false` from onTouch, we don't want to stop
       // events propagation. Fixes https://github.com/anvaka/panzoom/issues/12
-      return;
+      return true;
     }
 
     e.stopPropagation();
@@ -1098,4 +1103,3 @@ function autoRun() {
 }
 
 autoRun();
-	

@@ -590,8 +590,13 @@ function createPanZoom(domElement, options) {
   }
 
   function onTouch(e) {
-    // let them override the touch behavior
-    beforeTouch(e);
+    if (e.isDragging)
+      return;
+
+    // let them override the touch behavior and optionally prevent panzoom
+    if (!beforeTouch(e)) {
+      return;
+    }
     clearPendingClickEventTimeout();
 
     if (e.touches.length === 1) {
@@ -609,7 +614,7 @@ function createPanZoom(domElement, options) {
     if (options.onTouch && !options.onTouch(e)) {
       // if they return `false` from onTouch, we don't want to stop
       // events propagation. Fixes https://github.com/anvaka/panzoom/issues/12
-      return;
+      return true;
     }
 
     e.stopPropagation();
@@ -1099,7 +1104,7 @@ function autoRun() {
 }
 
 autoRun();
-	
+
 },{"./lib/kinetic.js":2,"./lib/makeDomController.js":3,"./lib/makeSvgController.js":4,"./lib/makeTextSelectionInterceptor.js":5,"./lib/transform.js":6,"amator":7,"ngraph.events":9,"wheel":10}],2:[function(require,module,exports){
 /**
  * Allows smooth kinetic scrolling of the surface
@@ -1327,12 +1332,12 @@ function makeSvgController(svgElement, options) {
   }
 
   function getBBox() {
-    var bbox =  svgElement.getBBox();
+    var boundingBox =  svgElement.getBBox();
     return {
-      left: bbox.x,
-      top: bbox.y,
-      width: bbox.width,
-      height: bbox.height,
+      left: boundingBox.x,
+      top: boundingBox.y,
+      width: boundingBox.width,
+      height: boundingBox.height,
     };
   }
 
