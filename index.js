@@ -489,7 +489,7 @@ function createPanZoom(domElement, options) {
     owner.addEventListener('mousedown', onMouseDown, { passive: false });
     owner.addEventListener('dblclick', onDoubleClick, { passive: false });
     owner.addEventListener('touchstart', onTouch, { passive: false });
-    window.addEventListener('keydown', onKeyDown, { passive: false });
+    owner.addEventListener('keydown', onKeyDown, { passive: false });
 
     // Need to listen on the owner container, so that we are not limited
     // by the size of the scrollable domElement
@@ -501,7 +501,7 @@ function createPanZoom(domElement, options) {
   function releaseEvents() {
     wheel.removeWheelListener(owner, onMouseWheel);
     owner.removeEventListener('mousedown', onMouseDown);
-    window.removeEventListener('keydown', onKeyDown);
+    owner.removeEventListener('keydown', onKeyDown);
     owner.removeEventListener('dblclick', onDoubleClick);
     owner.removeEventListener('touchstart', onTouch);
 
