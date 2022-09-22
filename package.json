@@ -23,6 +23,7 @@
   "dependencies": {
     "amator": "^1.1.0",
     "ngraph.events": "^1.2.2",
+    "panzoom": "github:koflaherty/panzoom-with-draggable-elements",
     "wheel": "^1.0.0"
   },
   "devDependencies": {
